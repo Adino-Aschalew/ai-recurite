@@ -9,6 +9,7 @@ router.post('/upload', authenticate, authorize('job_seeker', 'admin'), uploadLim
 router.post('/upload-test', upload, cvController.uploadCVTest.bind(cvController));
 router.post('/:cvId/score/:jobId', authenticate, cvController.scoreCV.bind(cvController));
 // Place specific routes before parameterized ones so they are not captured by `:id`
+router.get('/all', authenticate, authorize('recruiter', 'admin'), cvController.getAllCVs.bind(cvController));
 router.get('/job-seeker', authenticate, cvController.getJobSeekerCVs.bind(cvController));
 router.get('/job-seeker/:jobSeekerId', authenticate, cvController.getJobSeekerCVs.bind(cvController));
 router.get('/:id', authenticate, cvController.getCV.bind(cvController));

@@ -278,6 +278,34 @@ class CVService {
   }
 
   /**
+   * Get all CVs with search
+   */
+  async getAllCVs(search = '') {
+    let query = `
+      SELECT c.*, u.first_name, u.last_name, u.email
+      FROM cvs c
+      JOIN job_seekers js ON c.job_seeker_id = js.id
+      JOIN users u ON js.user_id = u.id
+      WHERE c.is_current = TRUE
+    `;
+    
+    const params = [];
+    if (search) {
+      query += ` AND (u.first_name LIKE ? OR u.last_name LIKE ? OR u.email LIKE ? OR c.extracted_data LIKE ?)`;
+      const searchPattern = `%${search}%`;
+      params.push(searchPattern, searchPattern, searchPattern, searchPattern);
+    }
+    
+    query += ' ORDER BY c.created_at DESC';
+    
+    const [cvs] = await pool.execute(query, params);
+    return cvs.map(cv => ({
+      ...cv,
+      extracted_data: JSON.parse(cv.extracted_data || '{}')
+    }));
+  }
+
+  /**
    * Delete CV
    */
   async deleteCV(cvId, userId, userRole) {
