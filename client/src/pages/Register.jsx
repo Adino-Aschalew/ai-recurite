@@ -34,7 +34,7 @@ const Register = () => {
 
     try {
       await register(formData);
-      toast.success('Registration successful!');
+      toast.success('Account created successfully!');
       navigate('/dashboard');
     } catch (error) {
       const details = error.response?.data?.details;
@@ -43,11 +43,10 @@ const Register = () => {
         details.forEach(d => {
           if (d.path) {
             mapped[d.path] = mapped[d.path] || [];
-            mapped[d.path].push(d.msg || d.msg || 'Invalid value');
+            mapped[d.path].push(d.msg || 'Invalid value');
           }
         });
         setErrors(mapped);
-        // show first message as toast
         const firstMsg = details[0]?.msg || error.response?.data?.error;
         toast.error(firstMsg || 'Registration failed');
       } else {
@@ -59,97 +58,124 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1>Register</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            {errors.email && <div className="form-error">{errors.email.join(', ')}</div>}
-          </div>
-          <div className="form-group">
-            <label>Password (min 8 chars, uppercase, lowercase, number)</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            {errors.password && <div className="form-error">{errors.password.join(', ')}</div>}
-          </div>
-          <div className="form-group">
-            <label>Role</label>
-            <select name="role" value={formData.role} onChange={handleChange} required>
-              <option value="job_seeker">Job Seeker</option>
-              <option value="recruiter">Recruiter</option>
-            </select>
-            {errors.role && <div className="form-error">{errors.role.join(', ')}</div>}
-          </div>
-          <div className="form-group">
-            <label>First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          {formData.role === 'recruiter' && (
+    <div className="auth-page">
+      <div className="auth-side-panel">
+        <div className="auth-side-content">
+          <h2>Join the evolution of hiring.</h2>
+          <p>Create your account and start your journey with the most advanced AI recruitment tool.</p>
+        </div>
+      </div>
+      <div className="auth-form-container">
+        <div className="auth-card" style={{ maxWidth: '600px' }}>
+          <h1>Get Started</h1>
+          <p className="auth-subtitle">Fill in your details to create your profile.</p>
+          
+          <form onSubmit={handleSubmit}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="form-group">
+                <label>First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="John"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Last Name</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Doe"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+
             <div className="form-group">
-              <label>Company Name</label>
+              <label>Email Address</label>
               <input
-                type="text"
-                name="companyName"
-                value={formData.companyName}
+                type="email"
+                name="email"
+                placeholder="john@example.com"
+                value={formData.email}
                 onChange={handleChange}
                 required
               />
+              {errors.email && <div className="form-error">{errors.email.join(', ')}</div>}
             </div>
-          )}
-          <div className="form-group">
-            <label>Phone</label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Location</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-            />
-          </div>
-          <button type="submit" disabled={loading} className="auth-button">
-            {loading ? 'Registering...' : 'Register'}
-          </button>
-        </form>
-        <p className="auth-link">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
+
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              {errors.password && <div className="form-error">{errors.password.join(', ')}</div>}
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+              <div className="form-group">
+                <label>I am a...</label>
+                <select name="role" value={formData.role} onChange={handleChange} required>
+                  <option value="job_seeker">Job Seeker</option>
+                  <option value="recruiter">Recruiter</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="+1 (555) 000-0000"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {formData.role === 'recruiter' && (
+              <div className="form-group">
+                <label>Company Name</label>
+                <input
+                  type="text"
+                  name="companyName"
+                  placeholder="Acme Corp"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            )}
+
+            <div className="form-group">
+              <label>Location</label>
+              <input
+                type="text"
+                name="location"
+                placeholder="San Francisco, CA"
+                value={formData.location}
+                onChange={handleChange}
+              />
+            </div>
+
+            <button type="submit" disabled={loading} className="auth-button">
+              {loading ? 'Creating Account...' : 'Create Account'}
+            </button>
+          </form>
+
+          <p className="auth-footer">
+            Already have an account? <Link to="/login">Sign In</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
