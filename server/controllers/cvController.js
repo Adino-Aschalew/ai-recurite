@@ -128,6 +128,16 @@ class CVController {
     }
   }
 
+  async getAllCVs(req, res, next) {
+    try {
+      const { search } = req.query;
+      const result = await cvService.getAllCVs(search);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async deleteCV(req, res, next) {
     try {
       const { id } = req.params;
