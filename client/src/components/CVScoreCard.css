@@ -1,84 +1,117 @@
 .cv-score-card {
   background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
+  padding: 3rem;
+  border-radius: 36px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
 }
 
 .cv-score-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--light);
   margin-bottom: 1rem;
-  color: #2c3e50;
 }
 
 .score-display {
   position: relative;
-  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0;
 }
 
 .score-value {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #2c3e50;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--light);
 }
 
 .score-breakdown {
-  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
 }
 
 .score-breakdown h4 {
-  margin-bottom: 1rem;
-  color: #2c3e50;
+  grid-column: span 2;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--gray);
+  margin-bottom: 0.5rem;
 }
 
 .breakdown-item {
+  background: #f8fafc;
+  padding: 1.25rem;
+  border-radius: 20px;
   display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #e0e0e0;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  transition: var(--transition);
 }
 
-.breakdown-item:last-child {
-  border-bottom: none;
+.breakdown-item:hover {
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.breakdown-item span:first-child {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .breakdown-score {
-  font-weight: bold;
-  color: #667eea;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--light);
 }
 
 .suggestions {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 2px solid #e0e0e0;
+  background: rgba(212, 175, 55, 0.05);
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
 .suggestions h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--primary);
   margin-bottom: 1rem;
-  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .suggestions ul {
   list-style: none;
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .suggestions li {
-  padding: 0.5rem 0;
+  font-size: 0.9375rem;
+  color: var(--gray);
   padding-left: 1.5rem;
   position: relative;
-  color: #555;
+  line-height: 1.5;
 }
 
-.suggestions li:before {
-  content: "•";
+.suggestions li::before {
+  content: "→";
   position: absolute;
   left: 0;
-  color: #667eea;
-  font-weight: bold;
+  color: var(--primary);
+  font-weight: 800;
 }
-

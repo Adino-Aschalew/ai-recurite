@@ -1,25 +1,25 @@
 import React from 'react';
-import { RadialBarChart, RadialBar, ResponsiveContainer, Cell } from 'recharts';
+import { RadialBarChart, RadialBar, ResponsiveContainer } from 'recharts';
 import './CVScoreCard.css';
 
 const CVScoreCard = ({ score, breakdown, suggestions }) => {
   const scoreData = [
-    { name: 'Score', value: score, fill: score >= 80 ? '#27ae60' : score >= 60 ? '#f39c12' : '#e74c3c' }
+    { name: 'Score', value: score, fill: 'var(--primary)' }
   ];
 
   return (
     <div className="cv-score-card">
-      <h3>CV Score</h3>
+      <h3>AI Matching Analysis</h3>
       <div className="score-display">
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={220}>
           <RadialBarChart
-            innerRadius="60%"
-            outerRadius="90%"
+            innerRadius="75%"
+            outerRadius="100%"
             data={scoreData}
             startAngle={90}
             endAngle={-270}
           >
-            <RadialBar dataKey="value" cornerRadius={10} />
+            <RadialBar dataKey="value" cornerRadius={20} />
           </RadialBarChart>
         </ResponsiveContainer>
         <div className="score-value">{score.toFixed(1)}%</div>
@@ -27,21 +27,21 @@ const CVScoreCard = ({ score, breakdown, suggestions }) => {
 
       {breakdown && (
         <div className="score-breakdown">
-          <h4>Score Breakdown</h4>
+          <h4>Detailed Breakdown</h4>
           <div className="breakdown-item">
-            <span>Skills</span>
+            <span>Core Skills</span>
             <span className="breakdown-score">{breakdown.skills?.score?.toFixed(1) || 0}%</span>
           </div>
           <div className="breakdown-item">
-            <span>Experience</span>
+            <span>Relevant Exp</span>
             <span className="breakdown-score">{breakdown.experience?.score?.toFixed(1) || 0}%</span>
           </div>
           <div className="breakdown-item">
-            <span>Education</span>
+            <span>Academic fit</span>
             <span className="breakdown-score">{breakdown.education?.score?.toFixed(1) || 0}%</span>
           </div>
           <div className="breakdown-item">
-            <span>Quality</span>
+            <span>CV Quality</span>
             <span className="breakdown-score">{breakdown.quality?.score?.toFixed(1) || 0}%</span>
           </div>
         </div>
@@ -49,7 +49,10 @@ const CVScoreCard = ({ score, breakdown, suggestions }) => {
 
       {suggestions && suggestions.length > 0 && (
         <div className="suggestions">
-          <h4>Improvement Suggestions</h4>
+          <h4>
+            <svg style={{width: '20px'}} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            Optimization Tips
+          </h4>
           <ul>
             {suggestions.map((suggestion, idx) => (
               <li key={idx}>{suggestion}</li>
@@ -62,4 +65,3 @@ const CVScoreCard = ({ score, breakdown, suggestions }) => {
 };
 
 export default CVScoreCard;
-
