@@ -10,65 +10,71 @@ const Applications = () => {
     return response.data;
   });
 
-  const getStatusColor = (status) => {
-    const colors = {
-      pending: '#f39c12',
-      reviewing: '#3498db',
-      shortlisted: '#27ae60',
-      rejected: '#e74c3c',
-      interviewed: '#9b59b6',
-      offered: '#16a085',
-      hired: '#2ecc71'
-    };
-    return colors[status] || '#999';
+  const getStatusClass = (status) => {
+    return `status-${status.toLowerCase()}`;
   };
 
   if (isLoading) {
-    return <div className="applications"><p>Loading...</p></div>;
+    return (
+      <div className="apps-container">
+        <div className="empty-state">Loading your application history...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="applications">
-      <h1>My Applications</h1>
+    <div className="apps-container">
+      <header className="dashboard-header">
+        <div>
+          <h1>My Applications</h1>
+          <p>Monitor your journey and AI matching scores for every role.</p>
+        </div>
+      </header>
       
       {applications && applications.length > 0 ? (
-        <div className="applications-list">
+        <div className="apps-list">
           {applications.map(app => (
             <div key={app.id} className="application-card">
               <div className="app-header">
-                <div>
+                <div className="app-title-group">
                   <h3>{app.title || app.job_title}</h3>
                   <p className="company">{app.company_name}</p>
                 </div>
-                <div className="app-meta">
+                <div className="app-meta-group">
                   {app.overall_score && (
                     <div className="score-badge">
-                      {app.overall_score.toFixed(1)}%
+                      {Number(app.overall_score).toFixed(0)}% AI Match
                     </div>
                   )}
-                  <span
-                    className="status-badge"
-                    style={{ backgroundColor: getStatusColor(app.status) }}
-                  >
+                  <span className={`status-badge ${getStatusClass(app.status)}`}>
                     {app.status}
                   </span>
                 </div>
               </div>
+              
               <div className="app-footer">
-                <p className="applied-date">
-                  Applied: {new Date(app.applied_at).toLocaleDateString()}
-                </p>
-                <Link to={`/jobs/${app.job_id}`} className="btn-secondary">
-                  View Job
-                </Link>
+                <div className="applied-date">
+                  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  Applied on {new Date(app.applied_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+                <div style={{display: 'flex', gap: '1rem'}}>
+                  <Link to={`/jobs/${app.job_id}`} className="btn-secondary">
+                    View Job Posting
+                  </Link>
+                  {app.cv_id && (
+                    <Link to={`/cv/${app.cv_id}`} className="btn-secondary">
+                      View CV Analysis
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           ))}
         </div>
       ) : (
         <div className="empty-state">
-          <p>No applications yet</p>
-          <Link to="/jobs" className="btn-primary">Browse Jobs</Link>
+          <p>You haven't submitted any applications yet.</p>
+          <Link to="/jobs" className="btn-primary">Browse Open Roles</Link>
         </div>
       )}
     </div>
