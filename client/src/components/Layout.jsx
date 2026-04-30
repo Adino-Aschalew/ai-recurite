@@ -1,51 +1,92 @@
 import React from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './Layout.css';
 
 const Layout = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
+  const isActive = (path) => location.pathname === path;
+
+  const NavItem = ({ to, icon, label }) => (
+    <Link to={to} className={`nav-link ${isActive(to) ? 'active' : ''}`}>
+      {icon}
+      <span>{label}</span>
+    </Link>
+  );
+
   return (
     <div className="layout">
-      <nav className="navbar">
-        <div className="nav-container">
+      <aside className="sidebar">
+        <div className="sidebar-top">
           <Link to="/dashboard" className="nav-logo">
-            AI Recruitment
+            <div className="nav-logo-icon"></div>
+            <span>RecruitAI</span>
           </Link>
-          <div className="nav-menu">
-            {user?.role === 'job_seeker' && (
+          
+          <nav className="nav-menu">
+            {user?.role === 'job_seeker' ? (
               <>
-                <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                <Link to="/cv/upload" className="nav-link">Upload CV</Link>
-                <Link to="/jobs" className="nav-link">Browse Jobs</Link>
-                <Link to="/my-applications" className="nav-link">My Applications</Link>
+                <NavItem to="/dashboard" label="Dashboard" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>} />
+                <NavItem to="/jobs" label="Browse Jobs" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>} />
+                <NavItem to="/cv/upload" label="Upload CV" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>} />
+                <NavItem to="/my-applications" label="Applications" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>} />
+              </>
+            ) : (
+              <>
+                <NavItem to="/dashboard" label="Dashboard" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" /></svg>} />
+                <NavItem to="/jobs" label="My Postings" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>} />
+                <NavItem to="/candidates" label="Talent Pool" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>} />
+                <NavItem to="/job/post" label="New Job" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>} />
+                <NavItem to="/analytics" label="Analytics" icon={<svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>} />
               </>
             )}
-            {user?.role === 'recruiter' && (
-              <>
-                <Link to="/dashboard" className="nav-link">Dashboard</Link>
-                <Link to="/job/post" className="nav-link">Post Job</Link>
-                <Link to="/jobs" className="nav-link">Jobs</Link>
-                <Link to="/analytics" className="nav-link">Analytics</Link>
-              </>
-            )}
-            <div className="nav-user">
-              <span>{user?.email}</span>
-              <button onClick={handleLogout} className="logout-btn">Logout</button>
+          </nav>
+        </div>
+
+        <div className="sidebar-footer">
+          <Link to="/profile" className="user-profile">
+            <div className="user-avatar-small">
+              {user?.firstName?.[0]}{user?.lastName?.[0]}
+            </div>
+            <div className="user-details">
+              <span className="user-name">{user?.firstName} {user?.lastName}</span>
+              <span className="user-role">{user?.role?.replace('_', ' ')}</span>
+            </div>
+          </Link>
+          <button onClick={handleLogout} className="sidebar-logout">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-6 0v-1m6 0H9" /></svg>
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <div className="main-wrapper">
+        <header className="top-bar">
+          <div className="top-bar-search">
+            <svg style={{width: '20px', color: 'var(--gray)'}} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <input type="text" placeholder="Search system..." />
+          </div>
+
+          <div className="nav-user">
+            <div className="notification-bell" style={{position: 'relative', cursor: 'pointer'}}>
+              <svg style={{width: '24px', color: 'var(--gray)'}} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+              <span style={{position: 'absolute', top: '-2px', right: '-2px', width: '10px', height: '10px', background: 'var(--primary)', borderRadius: '50%', border: '2px solid white'}}></span>
             </div>
           </div>
-        </div>
-      </nav>
-      <main className="main-content">
-        <Outlet />
-      </main>
+        </header>
+
+        <main className="main-content">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };
