@@ -1,13 +1,10 @@
-.applications {
-  padding: 2rem;
+.apps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
-.applications h1 {
-  margin-bottom: 2rem;
-  color: #2c3e50;
-}
-
-.applications-list {
+.apps-list {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -15,55 +12,86 @@
 
 .application-card {
   background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid var(--glass-border);
+  border-radius: 32px;
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.application-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(212, 175, 55, 0.1);
 }
 
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
 }
 
-.app-header h3 {
-  margin: 0 0 0.5rem 0;
-  color: #2c3e50;
+.app-title-group h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--light);
+  margin-bottom: 0.5rem;
 }
 
-.company {
-  color: #667eea;
-  font-weight: 500;
+.app-title-group .company {
+  color: var(--gray);
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
-.app-meta {
+.app-meta-group {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .status-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  color: white;
-  font-size: 0.85rem;
-  font-weight: 500;
-  text-transform: capitalize;
+  padding: 0.625rem 1.25rem;
+  border-radius: 14px;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
 }
 
 .app-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
-  border-top: 1px solid #e0e0e0;
+  padding-top: 1.75rem;
+  border-top: 1px solid #f1f5f9;
 }
 
 .applied-date {
-  color: #999;
-  font-size: 0.9rem;
-  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
 }
 
+.applied-date svg {
+  width: 18px;
+  height: 18px;
+  color: var(--primary);
+}
+
+/* Status colors for Gold & White theme */
+.status-pending { color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.05); }
+.status-reviewing { color: #D4AF37; border-color: rgba(212, 175, 55, 0.3); background: rgba(212, 175, 55, 0.05); }
+.status-shortlisted { color: #059669; border-color: rgba(5, 150, 105, 0.3); background: rgba(5, 150, 105, 0.05); }
+.status-rejected { color: #dc2626; border-color: rgba(220, 38, 38, 0.3); background: rgba(220, 38, 38, 0.05); }
+.status-interviewed { color: #7c3aed; border-color: rgba(124, 58, 237, 0.3); background: rgba(124, 58, 237, 0.05); }
+.status-offered { color: #db2777; border-color: rgba(219, 39, 119, 0.3); background: rgba(219, 39, 119, 0.05); }
+.status-hired { color: #0891b2; border-color: rgba(8, 145, 178, 0.3); background: rgba(8, 145, 178, 0.05); }
