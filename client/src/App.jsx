@@ -16,6 +16,9 @@ import CVView from './pages/CVView';
 import JobPosting from './pages/JobPosting';
 import Applications from './pages/Applications';
 import Analytics from './pages/Analytics';
+import Candidates from './pages/Candidates';
+import MockInterview from './pages/MockInterview';
+import Profile from './pages/Profile';
 import Layout from './components/Layout';
 
 const queryClient = new QueryClient();
@@ -56,6 +59,11 @@ function AppRoutes() {
           user?.role === 'job_seeker' ? <JobSeekerDashboard /> : <RecruiterDashboard />
         } />
         
+        <Route path="profile" element={
+          <PrivateRoute allowedRoles={['job_seeker', 'recruiter', 'admin']}>
+            <Profile />
+          </PrivateRoute>
+        } />
         {/* Job Seeker Routes */}
         <Route path="cv/upload" element={
           <PrivateRoute allowedRoles={[ 'job_seeker', 'admin' ]}>
@@ -82,6 +90,11 @@ function AppRoutes() {
             <Applications />
           </PrivateRoute>
         } />
+        <Route path="interview/:jobId" element={
+          <PrivateRoute allowedRoles={[ 'job_seeker', 'admin' ]}>
+            <MockInterview />
+          </PrivateRoute>
+        } />
         
         {/* Recruiter Routes */}
         <Route path="job/post" element={
@@ -97,6 +110,11 @@ function AppRoutes() {
         <Route path="analytics" element={
           <PrivateRoute allowedRoles={[ 'recruiter', 'admin' ]}>
             <Analytics />
+          </PrivateRoute>
+        } />
+        <Route path="candidates" element={
+          <PrivateRoute allowedRoles={[ 'recruiter', 'admin' ]}>
+            <Candidates />
           </PrivateRoute>
         } />
       </Route>
